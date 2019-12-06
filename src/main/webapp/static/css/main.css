@@ -1,0 +1,167 @@
+@font-face {
+    font-family: 'TESLA';
+    src: URL('../../static/fonts/TESLA.ttf') format('truetype');
+}
+
+#child {
+    position: absolute;
+    top: 8%;
+    padding: 0%;
+    border: 0%;
+    margin: 0%;
+    left: 80%; /* this line of code will sort things out for you :) */
+}
+
+#card-title {
+    position: relative;
+    top: 0%;
+    padding: 0%;
+    border: 0%;
+    margin: 0%;
+    left: 0%; /* this line of code will sort things out for you :) */
+}
+
+.carousel {
+    position: absolute;
+    margin-top: 50%;
+
+    bottom: 15%;
+    padding: 0%;
+    border: 0%;
+    height: 550px;
+}
+
+.brand-logo {
+    padding: 0%;
+    border: 0%;
+    margin: 0%;
+    font-family: TESLA;
+    font-size: 20px;
+}
+
+#map {
+    height: 100%;
+    top: 3%;
+    bottom: 5%;
+    height: 94%;
+}
+
+html, body {
+    height: 100%;
+    min-height: 550px;
+    font-family: Google Sans,Roboto,Arial,Helvetica,sans-serif;
+}
+
+#title {
+    font-size: 75px;
+    font-family: 'UberMove', 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+.map-container {
+    margin-top: 1%;
+}
+
+.carousel-wrapper {
+    height: 480px;
+    position: static;
+}
+
+.carousel-page {
+    position: relative;
+    min-width: 200px;
+    min-height: 550px;
+    height: 100%;
+}
+
+.page-footer {
+    position: fixed;
+    bottom: 0%;
+    height: 70px;
+    width: 100%;
+    text-align: center;
+    display: box;
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+.login-container {
+    padding: 1%;
+    margin-top: 5%;
+    padding-bottom: 0%;
+
+}
+
+.login-button {
+    position: relative;
+    align-items: center;
+    height: 50px;
+    font-size: 15px;
+    font-family: Roboto, "sans serif";
+    font-weight: 300;
+    line-height: 1.3;
+    margin-bottom: 4px;
+    width: 95%;
+}
+
+.sing-up-link {
+    margin-top: 0%;
+    padding-top: 0%;
+}
+
+.nav-wrapper {
+    position:fixed;
+}
+
+.original-price {
+    text-decoration: line-through;
+    position: absolute;
+    top: 13%;
+    padding: 0%;
+    border: 0%;
+    margin: 0%;
+    left: 74%; /* this line of code will sort things out for you :) */
+    font-size: 11px;
+    color:rgb(149, 148, 149);
+    font-style: italic;
+}
+
+.error-message {
+    color:rgb(255, 76, 56);
+}
+
+.car-type-container{
+    height: 450px;
+  }
+
+  .edit-icon {
+    position: relative;
+    right: 13px;
+    display:inline;
+  }
+
+  .content-collapsible-body{
+    position: relative;
+    left: 10%;
+    width: 80%;
+  }
+
+  .inline {
+    display:inline;
+  }
+
+.icon-red{
+    color: #e57373;
+    z-index: 100;
+}
+
+.icon-orange {
+    color: #ffb74d;
+    z-index: 3;
+}
+
+.collapsible-list {
+    position: relative;
+    top: 3%;
+}
+
+.
