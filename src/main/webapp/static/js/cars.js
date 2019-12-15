@@ -1,4 +1,4 @@
-var markers = [];
+var cars = [];
 var map;
 
 $(document).on("click", ".collapsible-header", function(e) {  // When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...
@@ -12,27 +12,48 @@ $(document).on("click", ".collapsible-header", function(e) {  // When HTML DOM "
             console.log(data);
             removeMarkers();
             data.forEach(addMarker);
-            console.log("markers = " + markers);
+            console.log("markers = " + cars[0].car.id);
         }
     })
 });
 
+$(".collection-item").hover(
+    function(e) {
+        let carId = $(this).attr("carId");
+        console.log(carId);
+        for(var i = 0; i < cars.length; i++){
+            if(cars[i].car.id != carId){
+                cars[i].marker.setVisible(false);
+            }
+        }
+    }, function(e) {
+        let carId = $(this).attr("carId");
+        for(var i = 0; i < cars.length; i++){
+            cars[i].marker.setVisible(true);
+        }
+    })
+
 function addMarker(data){
-    data = data['latLong'];
-    var latLng = new google.maps.LatLng(data['latitude'],data['longitude']);
+
+    latLong = data['latLong'];
+    var latLngGoogle = new google.maps.LatLng(latLong['latitude'],latLong['longitude']);
     var marker   = new google.maps.Marker({
-      position: latLng
+      position: latLngGoogle
     });
     marker.setMap(map);
-    markers.push(marker);
+    if(data.car.id == 1){
+        console.log(marker);
+        marker.scaledSize = new google.maps.Size(500    , 300);
+    }
+    data["marker"] = marker;
+    cars.push(data);
 }
 
 function removeMarkers(){
-    console.log(markers.length);
-    for(var i = 0; i < markers.length; i++){
-        markers[i].setMap(null);
+    for(var i = 0; i < cars.length; i++){
+        cars[i].marker.setMap(null);
     }
-    markers = [];
+    cars = [];
 }
 
 function initMap() {

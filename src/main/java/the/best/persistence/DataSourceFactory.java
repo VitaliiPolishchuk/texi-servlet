@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -19,7 +20,6 @@ public class DataSourceFactory {
     private DataSourceFactory() {
 
     }
-
 
     static {
         Properties properties = new Properties();
@@ -35,21 +35,25 @@ public class DataSourceFactory {
         } catch (IOException e) {
             log.error("Error while reading properties from file!", e);
         }
-
-
     }
 
-    public static DataSourceFactory getInstance(){
+    public static DataSourceFactory getInstance() {
         return INSTANCE;
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
+        log.info("Creating new connection");
         Connection connection = null;
         try {
             connection = dataSource.getConnection();
         } catch (SQLException e) {
             log.error("Error while connection creation", e);
         }
+        log.info("Connection was created");
         return connection;
+    }
+
+    public static PreparedStatement getPreparedStatement(String query) throws SQLException {
+        return getConnection().prepareStatement(query);
     }
 }

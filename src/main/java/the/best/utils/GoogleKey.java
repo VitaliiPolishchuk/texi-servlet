@@ -13,11 +13,10 @@ public class GoogleKey {
     static {
         Properties properties = new Properties();
         try {
-            properties.load(DataSourceFactory.class.getResourceAsStream("/googleApi.properties"));
+            properties.load(GoogleKey.class.getResourceAsStream("/googleApi.properties"));
             MAPS_API_KEY = properties.getProperty("API_KEY");
         } catch (IOException e) {
             log.error("Error while reading properties from file!", e);
         }
     }
-
 }

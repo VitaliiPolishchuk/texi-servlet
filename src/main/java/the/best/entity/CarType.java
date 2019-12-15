@@ -13,4 +13,15 @@ public class CarType {
     private double priceBooking;
     private double pricePerKm;
     private int capacity;
+
+    public CarType() {
+    }
+
+    public CarType(int id, String typeName, double priceBooking, double pricePerKm, int capacity) {
+        this.id = id;
+        this.typeName = typeName;
+        this.priceBooking = priceBooking;
+        this.pricePerKm = pricePerKm;
+        this.capacity = capacity;
+    }
 }

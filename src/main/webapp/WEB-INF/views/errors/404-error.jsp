@@ -8,29 +8,32 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title><fmt:message key="not_found"/></title>
+  <head>
+    <title>
+      <fmt:message key="not_found"/>
+    </title>
     <c:import url="../components/head.jsp"/>
-</head>
-<c:import url="../components/navbar.jsp"/>
-<body>
-
-<div class="row ">
-    <div class="col s0 m1"></div>
-    <div class="col s12 m10">
-	<div class="container z-depth-1 login-container">
-            <h2><fmt:message key="not_found"/>!</h2>
-            <a href="/"><fmt:message key="order"/></a>
+  </head>
+  <c:import url="../components/navbar.jsp"/>
+  <body>
+    <div class="row ">
+      <div class="col s0 m1">
+      </div>
+      <div class="col s12 m10">
+        <div class="container z-depth-1 login-container">
+          <h2>
+            <fmt:message key="not_found"/>!
+          </h2>
+          <a href="/">
+            <fmt:message key="order"/>
+          </a>
+        </div>
+      </div>
+      <div class="col s0 m1">
+      </div>
     </div>
     </div>
-    <div class="col s0 m1"></div>
-    </div>
-
-	</div>
-
-</section>
-
+  </section>
 <c:import url="../components/footer.jsp"/>
-
 </body>
 </html>

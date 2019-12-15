@@ -23,17 +23,16 @@ public class GetPlacePositionServiceImpl implements GetPlacePositionService {
     private static final String FIELDS_PARAM = "fields";
     private static final String FIELDS = "geometry";
 
+    public void setHttpService(HttpService httpService) {
+        this.httpService = httpService;
+    }
+
     @Override
     public LatLong getPosition(String locationId) {
-        URIBuilder uriBuilder = null;
+        log.info("Getting LatLong by location id " + locationId);
         try {
-            uriBuilder = new URIBuilder(REQUEST_URL);
-            uriBuilder.addParameter(PLACE_ID_PARAM, locationId);
-            uriBuilder.addParameter(FIELDS_PARAM, FIELDS);
-            uriBuilder.addParameter(KEY_PARAM, GoogleKey.MAPS_API_KEY);
-
-            log.info("url=" + uriBuilder.toString());
-            byte[] response = httpService.executeUrl(uriBuilder.toString());
+            String url = buildUrl(locationId);
+            byte[] response = httpService.executeUrl(url);
 
             JSONObject jo =  (JSONObject) new JSONParser().parse(new String(response));
             log.info("JSON=" + jo.toString());
@@ -42,15 +41,26 @@ public class GetPlacePositionServiceImpl implements GetPlacePositionService {
             jo = (JSONObject) jo.get("location");
 
             LatLong latLong = new LatLong((double)jo.get("lat"), (double)jo.get("lng"));
-
+            log.info("Gotten LatLong by location id " + locationId);
             return latLong;
-        } catch (URISyntaxException e){
-            log.error("Error during building url " + e.getMessage());
-        } catch (ParseException e) {
+        }  catch (ParseException e) {
             log.error("Error during parsing responce to JSON " + e.getMessage());
+            return null;
+        }
+    }
+
+    public String buildUrl(String locationId) {
+        URIBuilder uriBuilder = null;
+        try {
+            uriBuilder = new URIBuilder(REQUEST_URL);
+            uriBuilder.addParameter(PLACE_ID_PARAM, locationId);
+            uriBuilder.addParameter(FIELDS_PARAM, FIELDS);
+            uriBuilder.addParameter(KEY_PARAM, GoogleKey.MAPS_API_KEY);
+        } catch (URISyntaxException e) {
+            log.error("Error during building url " + e.getMessage());
+            return "";
         }
 
-        return null;
-
+        return uriBuilder.toString();
     }
 }

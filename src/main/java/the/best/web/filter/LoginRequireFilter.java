@@ -21,7 +21,7 @@ public class LoginRequireFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         System.out.println(request.getRequestURI());
-        if(request.getSession().getAttribute(ParamAttrConstant.USER) != null){
+        if (request.getSession().getAttribute(ParamAttrConstant.USER) != null) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             HttpServletResponse response = (HttpServletResponse) servletResponse;

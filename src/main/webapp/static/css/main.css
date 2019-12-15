@@ -40,11 +40,13 @@
 }
 
 #map {
-    height: 100%;
-    top: 3%;
-    bottom: 5%;
-    height: 94%;
-}
+     height: 100%;
+     top: 3%;
+     bottom: 5%;
+     height: 94%;
+ }
+
+
 
 html, body {
     height: 100%;
@@ -164,4 +166,8 @@ html, body {
     top: 3%;
 }
 
-.
+.add-car-btn {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+}

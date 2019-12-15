@@ -1,6 +1,8 @@
 package the.best.web.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import the.best.service.dao.DiscountService;
+import the.best.service.dao.DiscountServiceImpl;
 import the.best.utils.ParamAttrConstant;
 import the.best.utils.UrlConstant;
 import the.best.utils.ViewConstant;
@@ -20,7 +22,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet(UrlConstant.ORDER)
 public class OrderServlet extends HttpServlet {
 
-    DiscountDAO discountDAO = new DiscountDAO();
+    DiscountService discountService = new DiscountServiceImpl();
 
     private static final long serialVersionUID = 1L; //serialization
 
@@ -37,7 +39,7 @@ public class OrderServlet extends HttpServlet {
         session.setAttribute(ParamAttrConstant.ORIGIN, request.getParameter(ParamAttrConstant.ORIGIN));
         session.setAttribute(ParamAttrConstant.DESTINATION, request.getParameter(ParamAttrConstant.DESTINATION));
         session.setAttribute(ParamAttrConstant.DISCOUNT, request.getParameter(ParamAttrConstant.DISCOUNT));
-        Discount discount = discountDAO.get(request.getParameter(ParamAttrConstant.DISCOUNT));
+        Discount discount = discountService.getById(request.getParameter(ParamAttrConstant.DISCOUNT));
 
         session.setAttribute(ParamAttrConstant.DISCOUNT, discount);
 

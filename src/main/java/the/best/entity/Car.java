@@ -14,6 +14,21 @@ public class Car {
     private String carName;
     private String photoUrl;
     private int carTypeId;
+    private String carLocationId;
+    private Boolean isActive;
+
+    public Car() {
+
+    }
+
+    public Car(int id, String carName, String photoUrl, int carTypeId, String carLocationId, int isActive) {
+        this.id = id;
+        this.carName = carName;
+        this.photoUrl = photoUrl;
+        this.carTypeId = carTypeId;
+        this.carLocationId = carLocationId;
+        this.isActive = isActive == 0 ? false : true;
+    }
 
     @Override
     public String toString() {
@@ -21,7 +36,24 @@ public class Car {
                 "id=" + id +
                 ", carName='" + carName + '\'' +
                 ", photoUrl='" + photoUrl + '\'' +
-                ", CarTypeId=" + carTypeId +
+                ", carTypeId=" + carTypeId +
+                ", carLocationId='" + carLocationId + '\'' +
+                ", isActive=" + isActive +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Car)) return false;
+
+        Car car = (Car) o;
+
+        return id == car.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

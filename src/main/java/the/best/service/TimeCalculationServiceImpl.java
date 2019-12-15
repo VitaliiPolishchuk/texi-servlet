@@ -23,20 +23,24 @@ public class TimeCalculationServiceImpl implements TimeCalculationService {
     private static final String KEY_PARAM = "key";
     private static final String UNITS_PARAM = "units";
 
-    private static final HttpService httpService = new HttpServiceImpl();
+    private static HttpService httpService = new HttpServiceImpl();
+
+    public TimeCalculationServiceImpl() {
+        HttpService httpService = new HttpServiceImpl();
+    }
+
+    public static void setHttpService(HttpService httpService) {
+        TimeCalculationServiceImpl.httpService = httpService;
+    }
 
     @Override
     public long calculateTime(Location origin, Location destination) {
+        log.info(String.format("Calculation time between origin %s and destination %s", origin, destination));
         try {
-            URIBuilder uriBuilder = new URIBuilder(TIME_BETWEEN_TWO_POINT_URL);
-            uriBuilder.addParameter(UNITS_PARAM, "imperial");
-            uriBuilder.addParameter(ORIGINS_PARAM, origin.getLocationName());
-            uriBuilder.addParameter(DESTINATIONS_PARAM, destination.getLocationName());
-            uriBuilder.addParameter(KEY_PARAM, GoogleKey.MAPS_API_KEY);
-            log.info("url=" + uriBuilder.toString());
-            byte[] response = httpService.executeUrl(uriBuilder.toString());
-
-            JSONObject jo =  (JSONObject) new JSONParser().parse(new String(response));
+            String url = buildUrl(origin, destination);
+            byte[] response = httpService.executeUrl(url);
+            System.out.println(response);
+            JSONObject jo = (JSONObject) new JSONParser().parse(new String(response));
             log.info("JSON=" + jo.toString());
             JSONArray ja = (JSONArray) jo.get("rows");
             jo = (JSONObject) ja.get(0);
@@ -44,14 +48,26 @@ public class TimeCalculationServiceImpl implements TimeCalculationService {
             jo = (JSONObject) ja.get(0);
             jo = (JSONObject) jo.get("duration");
             long res = (long) jo.get("value");
-
+            log.info(String.format("Calculated time between origin %s and destination %s is %d", origin, destination, res));
             return res;
 
-        } catch (URISyntaxException e){
-            log.error("Error during building url " + e.getMessage());
         } catch (ParseException e) {
             log.error("Error during parsing responce to JSON " + e.getMessage());
         }
         return -1;
+    }
+
+    public String buildUrl(Location origin, Location destination) {
+        URIBuilder uriBuilder = null;
+        try {
+            uriBuilder = new URIBuilder(TIME_BETWEEN_TWO_POINT_URL);
+            uriBuilder.addParameter(UNITS_PARAM, "imperial");
+            uriBuilder.addParameter(ORIGINS_PARAM, origin.getLocationName());
+            uriBuilder.addParameter(DESTINATIONS_PARAM, destination.getLocationName());
+            uriBuilder.addParameter(KEY_PARAM, GoogleKey.MAPS_API_KEY);
+        } catch (URISyntaxException e) {
+            return "";
+        }
+        return uriBuilder.toString();
     }
 }

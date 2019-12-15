@@ -8,4 +8,5 @@ public class ViewConstant {
     public static final String SUCCESS = PATH + "success.jsp";
     public static final String LOGIN = PATH + "login.jsp";
     public static final String CAR_TYPES = PATH + "car_types.jsp";
+    public static final String NEW_CAR = PATH + "new_car.jsp";
 }

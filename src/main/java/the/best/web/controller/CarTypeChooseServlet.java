@@ -9,8 +9,8 @@ import the.best.entity.Discount;
 import the.best.entity.Location;
 import the.best.web.data.Order;
 import the.best.entity.User;
-import the.best.service.OrderService;
-import the.best.service.OrderServiceImpl;
+import the.best.service.dao.OrderService;
+import the.best.service.dao.OrderServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,8 +30,8 @@ public class CarTypeChooseServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String origin = (String)session.getAttribute(ParamAttrConstant.ORIGIN);
-        String destionation = (String)session.getAttribute(ParamAttrConstant.DESTINATION);
+        String origin = (String) session.getAttribute(ParamAttrConstant.ORIGIN);
+        String destionation = (String) session.getAttribute(ParamAttrConstant.DESTINATION);
         log.info("Origin is " + origin);
         log.info("Destination is " + destionation);
 
@@ -40,14 +40,13 @@ public class CarTypeChooseServlet extends HttpServlet {
 
 
         session.setAttribute(ParamAttrConstant.ORDERS, orders);
-        orderService.calculatePrice(orders, (User) session.getAttribute(ParamAttrConstant.USER), (Discount)session.getAttribute(ParamAttrConstant.DISCOUNT));
+        orderService.calculatePrice(orders, (User) session.getAttribute(ParamAttrConstant.USER), (Discount) session.getAttribute(ParamAttrConstant.DISCOUNT));
 
 
         request.getRequestDispatcher(ViewConstant.CAR_TYPE_CHOOSE).forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println(request.getParameter(ParamAttrConstant.CAR));
 
         response.sendRedirect(UrlConstant.SUCCESS);
     }

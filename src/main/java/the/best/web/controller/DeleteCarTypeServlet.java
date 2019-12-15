@@ -1,6 +1,9 @@
 package the.best.web.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import the.best.entity.CarType;
+import the.best.service.dao.CarTypeService;
+import the.best.service.dao.CarTypeServiceImpl;
 import the.best.utils.ParamAttrConstant;
 import the.best.utils.UrlConstant;
 import the.best.dao.CarTypeDAO;
@@ -16,12 +19,14 @@ import java.io.IOException;
 @WebServlet(UrlConstant.DELETE_CAR_TYPE)
 public class DeleteCarTypeServlet extends HttpServlet {
 
-    CarTypeDAO carTypeDAO = new CarTypeDAO();
+    CarTypeService carTypeService = new CarTypeServiceImpl();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter(ParamAttrConstant.TYPE_ID));
-        carTypeDAO.delete(id);
+        CarType carType = new CarType();
+        carType.setId(id);
+        carTypeService.remove(carType);
 
         response.sendRedirect(UrlConstant.CAR_TYPES);
     }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class CarTypeDAO {
+public class CarTypeDAO extends AbstractDao<CarType, Integer> {
 
     public static final String TABLE = "car_type";
 
@@ -24,47 +24,37 @@ public class CarTypeDAO {
     public static final String COLUMN_CAPACITY = "capacity";
 
     private static final String QUERY_CARS_TYPE = "SELECT * FROM " + TABLE;
+    private static final String QUERY_BY_ID = "SELECT * FROM " + TABLE + " WHERE " + COLUMN_ID + " = ? ";
 
     private static final String DELETE_CAR_TYPE = "DELETE FROM " + TABLE + " WHERE " + COLUMN_ID + " = ?";
-
-    private static final DataSourceFactory dataSourceFactory = DataSourceFactory.getInstance();
 
     private CarDAO carDAO = new CarDAO();
 
     public List<CarType> getAll() {
-        try (Statement statement = dataSourceFactory.getConnection().createStatement();
-
-             ResultSet resultSet = statement.executeQuery(QUERY_CARS_TYPE)){
-            List<CarType> res = new ArrayList<>();
-            while(resultSet.next()){
-                CarType carType = new CarType();
-                carType.setId(resultSet.getInt(COLUMN_ID));
-                carType.setTypeName(resultSet.getString(COLUMN_TYPE_NAME));
-                carType.setPriceBooking(resultSet.getDouble(COLUMN_PRICE_BOOKING));
-                carType.setPricePerKm(resultSet.getDouble(COLUMN_PRICE_PER_KM));
-                carType.setCapacity(resultSet.getInt(COLUMN_CAPACITY));
-
-                res.add(carType);
-            }
-            return res;
-        } catch (SQLException e){
-            System.out.println("Query failed " + e.getMessage());
-            return null;
-        }
+        return getAll(QUERY_CARS_TYPE, getMapper());
     }
 
-    public void delete(int id){
+    @Override
+    public boolean create(CarType entity) {
+        return false;
+    }
 
-        List<Car> cars = carDAO.getAllByCarTypeId(id);
-        for(Car car : cars){
-            carDAO.delete(car.getId());
-        }
+    @Override
+    public boolean update(CarType entity) {
+        return false;
+    }
 
-        try(PreparedStatement insertUserPreparedStatement = dataSourceFactory.getConnection().prepareStatement(DELETE_CAR_TYPE)){
-            insertUserPreparedStatement.setInt(1, id);
-            insertUserPreparedStatement.execute();
-        } catch (SQLException e){
-            log.error("Failed delete car type " + e.getMessage());
-        }
+    @Override
+    public boolean remove(CarType entity) {
+        return createUpdate(DELETE_CAR_TYPE, ps -> ps.setInt(1, entity.getId()));
+    }
+
+    public CarType getById(int id) {
+        return getById(QUERY_BY_ID, ps -> ps.setInt(1, id), getMapper());
+    }
+
+    private EntityMapper<CarType> getMapper() {
+        return resultSet -> new CarType(resultSet.getInt(COLUMN_ID), resultSet.getString(COLUMN_TYPE_NAME),
+                resultSet.getDouble(COLUMN_PRICE_BOOKING), resultSet.getDouble(COLUMN_PRICE_PER_KM), resultSet.getInt(COLUMN_CAPACITY));
     }
 }

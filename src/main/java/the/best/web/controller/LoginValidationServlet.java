@@ -2,11 +2,13 @@ package the.best.web.controller;
 
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
+import the.best.utils.LocaleCodeConstant;
+import the.best.utils.ParamAttrConstant;
 import the.best.utils.UrlConstant;
 import the.best.entity.User;
-import the.best.service.UserService;
-import the.best.service.UserServiceImpl;
-import the.best.web.data.AjaxLoginResponse;
+import the.best.service.dao.UserService;
+import the.best.service.dao.UserServiceImpl;
+import the.best.web.data.AjaxSuccessResponse;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @Slf4j
 @WebServlet(UrlConstant.LOGIN_VALIDATION)
@@ -30,9 +34,9 @@ public class LoginValidationServlet extends HttpServlet {
         User user = new User();
         user.setEmail(email);
         user.setEmailPassword(password);
-        user = userService.validate(user);
+        user = userService.doLogin(user);
 
-        AjaxLoginResponse ajaxResponse = new AjaxLoginResponse();
+        AjaxSuccessResponse ajaxResponse = new AjaxSuccessResponse();
         log.debug("user=" + user);
         if (user != null) {
             log.info("Login success");
@@ -40,7 +44,9 @@ public class LoginValidationServlet extends HttpServlet {
             ajaxResponse.setUrl("/order");
             ajaxResponse.setSuccess(true);
         } else {
-            ajaxResponse.setMessage("Invalid credential! Please, try again.");
+            String localeStr = (String) session.getAttribute(ParamAttrConstant.LOCALE);
+            ResourceBundle messages = ResourceBundle.getBundle("messages", new Locale(localeStr));
+            ajaxResponse.setMessage(messages.getString(LocaleCodeConstant.ERROR_LOGIN_MESSAGE));
         }
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

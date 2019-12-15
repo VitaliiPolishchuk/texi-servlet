@@ -1,6 +1,8 @@
 package the.best.web.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import the.best.service.dao.UserService;
+import the.best.service.dao.UserServiceImpl;
 import the.best.utils.ParamAttrConstant;
 import the.best.utils.UrlConstant;
 import the.best.utils.ViewConstant;
@@ -18,7 +20,7 @@ import java.io.IOException;
 @WebServlet(UrlConstant.SING_UP)
 public class SingUpServlet extends HttpServlet {
 
-    UserDAO userDAO = new UserDAO();
+    UserService userService = new UserServiceImpl();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -35,10 +37,13 @@ public class SingUpServlet extends HttpServlet {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmailPassword(emailPassword);
-
-        userDAO.insert(user);
-        log.info("insert user"+user);
-        request.getSession().setAttribute(ParamAttrConstant.USER, user);
-        response.sendRedirect(UrlConstant.ORDER);
+        if (userService.validate(user)) {
+            userService.create(user);
+            log.info("insert user " + user);
+            request.getSession().setAttribute(ParamAttrConstant.USER, user);
+            response.sendRedirect(UrlConstant.ORDER);
+        } else {
+            response.sendRedirect(UrlConstant.SING_UP);
+        }
     }
 }

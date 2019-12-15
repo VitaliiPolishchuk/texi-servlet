@@ -2,11 +2,13 @@ package the.best.web.controller;
 
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
+import the.best.service.dao.CarService;
+import the.best.service.dao.CarServiceImpl;
 import the.best.utils.ParamAttrConstant;
 import the.best.utils.UrlConstant;
 import the.best.dao.CarDAO;
-import the.best.service.OrderService;
-import the.best.service.OrderServiceImpl;
+import the.best.service.dao.OrderService;
+import the.best.service.dao.OrderServiceImpl;
 import the.best.web.data.AjaxGetCarsResponse;
 
 import javax.servlet.ServletException;
@@ -21,8 +23,8 @@ import java.util.List;
 @WebServlet(UrlConstant.GET_CARS)
 public class GetCarsServlet extends HttpServlet {
 
-    CarDAO carDAO = new CarDAO();
     OrderService orderService = new OrderServiceImpl();
+    CarService carService = new CarServiceImpl();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -35,7 +37,7 @@ public class GetCarsServlet extends HttpServlet {
         log.debug("car type =" + typeId);
         response.setContentType("application/json");
 
-        List<AjaxGetCarsResponse> ajaxResponse = orderService.convertAjaxGetCarResponse(carDAO.getAllWithLocationIdActiveByTypeId(typeId));
+        List<AjaxGetCarsResponse> ajaxResponse = orderService.convertAjaxGetCarResponse(carService.convert(carService.getAllWithLocationIdActiveByTypeId(typeId)));
         response.getWriter().write(new Gson().toJson(ajaxResponse));
     }
 }

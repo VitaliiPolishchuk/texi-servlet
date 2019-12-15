@@ -16,4 +16,9 @@ public class UrlConstant {
     public static final String CAR_TYPES = ADMIN + "/car-types";
     public static final String GET_CARS = ADMIN + "/get-cars";
     public static final String DELETE_CAR_TYPE = CAR_TYPES + "/delete";
+    public static final String CAR = ADMIN + "/car";
+    public static final String DELETE_CAR = CAR + "/delete";
+    public static final String EDIT_CAR = CAR + "/edit";
+    public static final String CAR_VALIDATION = CAR + "/validation";
+    public static final String NEW_CAR = CAR + "/new";
 }

@@ -1,4 +1,5 @@
 package the.best.utils;
+
 //utils
 public class ParamAttrConstant {
     public static final String BUNDLE = "bundle";
@@ -17,4 +18,6 @@ public class ParamAttrConstant {
     public static final String DISCOUNT = "discount";
     public static final String CAR_TYPES = "car_types";
     public static final String TYPE_ID = "type_id";
+    public static final String CAR_PAGE_TITLE = "car_page_title";
+
 }

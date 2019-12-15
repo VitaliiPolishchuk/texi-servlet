@@ -15,24 +15,24 @@ public class HttpServiceImpl implements HttpService {
 
     @Override
     public byte[] executeUrl(String url) {
-
+        log.info("Executing url " + url);
         GetMethod method = new GetMethod(url);
 
         byte[] res = null;
 
         try {
             int statusCode = httpClient.executeMethod(method);
-            if(statusCode == HttpStatus.SC_OK){
-                return method.getResponseBody();
+            if (statusCode == HttpStatus.SC_OK) {
+                res = method.getResponseBody();
             }
+            log.info("Url was executed. Responce is " + new String(method.getResponseBody()));
         } catch (IOException e) {
             log.error("Error during execution url: " + url + ".\nWith message " + e.getMessage());
         }
-
         return res;
     }
 
-    public static HttpService getInstance(){
+    public static HttpService getInstance() {
         return httpService;
     }
 }
